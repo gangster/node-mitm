@@ -3,14 +3,14 @@ var util = require('util'),
     http = require('follow-redirects').http,
     https = require('follow-redirects').https;
 
-
+// Mitm Module
 var Mitm = (function() {
   var beforeMiddlewares = [],
       frameMiddlewares = [],
       afterMiddlewares = [];
 
+  // public interface
   publicInterface = {
-    // public interface
     start: function(port) {
       http.createServer(listener).listen(port);
       util.puts('mitm server '.blue + 'started '.green.bold + 'on port '.blue + port.toString().yellow);
@@ -20,18 +20,17 @@ var Mitm = (function() {
     frame: frame
   }
 
-  // private
+  // private interface
   function listener(request, response) {
-    var options = {
+    var options, client;
+    options = {
       host: request.headers['host'],
       port: request.headers['x-real-port'],
       path: request.url,
       method: request.method,
       maxRedirects: 3
     };
-
-    var client = http;
-
+    client = http;
     if (options.port == "443") {
       client = https;
     }
@@ -39,7 +38,7 @@ var Mitm = (function() {
     client.get(options, responseHandler(response)).on("error", requestErrorHandler);
   }
 
-  function responseHandler (response) {
+  function responseHandler(response) {
     var responseWriter = response;
     return function(res) {
       var pageBuffer = "";
@@ -86,17 +85,17 @@ var Mitm = (function() {
     if(error) { util.puts(error.red); }
   };
 
-  function after (middleware) {
+  function after(middleware) {
     afterMiddlewares.push(middleware);
     return this;
   };
 
-  function before (middleware) {
+  function before(middleware) {
     beforeMiddlewares.push(middleware);
     return this;
   };
 
-  function frame (middleware) {
+  function frame(middleware) {
     frameMiddlewares.push(middleware);
     return this;
   };
