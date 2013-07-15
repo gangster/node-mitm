@@ -68,9 +68,9 @@ Mitm.before(scriptInjection("alert")). // Execute the middleware before page loa
 
 # Resources
 
-[Wireless Security Megaprimer](http://www.securitytube.net/groups?operation=view&groupId=9)
-[Setup a Fake Access Point with BackTrack 5](http://exploit.co.il/hacking/set-fake-access-point-backtrack5/)
-[Hak 5 Forums](http://forums.hak5.org/)
+* [Wireless Security Megaprimer](http://www.securitytube.net/groups?operation=view&groupId=9)
+* [Setup a Fake Access Point with BackTrack 5](http://exploit.co.il/hacking/set-fake-access-point-backtrack5/)
+* [Hak 5 Forums](http://forums.hak5.org/)
 
 # People
 * Josh Deeden (gangster@github)
