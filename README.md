@@ -3,7 +3,7 @@ node-mitm
 
 node-mitm is a lightweight and configurable framework for executing [Man-in-the-middle attacks](http://en.wikipedia.org/wiki/Man-in-the-middle_attack) against victim browsers.  It does this primarily by poisoning the HTTP response.
 
-Attacks can come in many forms, but maintain a consistent structure and can be thought of as simply being payload and exploit pair. Payloads are the vehicle by which exploits get delivered to the client.  Exploits are malicious code the attacker wishes to run victim browsers.
+Attacks can come in many forms, but maintain a consistent structure and can be thought of as simply being payload and exploit pair. Payloads are the vehicle by which exploits get delivered to the client.  Exploits are malicious code/scripts the attacker intends to execute on victim browsers.
 
 One example attack would be a script injection attack.  In this scenario, the attacker has a an evil script they want deployed to victim browsers so he can take control.  One way he could do this is by writing a <script/> tag containing his code to the browser, which the browser happily executes on his behalf.
 

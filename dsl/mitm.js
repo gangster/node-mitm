@@ -39,15 +39,14 @@ var Mitm = (function() {
   }
 
   function responseHandler(response) {
-    var responseWriter = response;
     return function(res) {
       var pageBuffer = "";
 
       res.setEncoding('utf8');
       res.on('data', function(chunk){
-        for (i = 0; i < chunkMiddlewares.length; i++) {
-          if (responseWriter !== undefined) {
-            pageBuffer += chunkMiddlewares[i].apply(null, [chunk]);
+        for (i = 0; i < frameMiddlewares.length; i++) {
+          if (response !== undefined) {
+            pageBuffer += frameMiddlewares[i].apply(null, [chunk]);
           }
         }
       });
@@ -55,35 +54,24 @@ var Mitm = (function() {
       res.on('end', function() {
 
         for (i = 0; i < beforeMiddlewares.length; i++) {
-          if (responseWriter !== undefined) {
-            beforeMiddlewares[i].apply(null, [responseWriter]);
+          if (response !== undefined) {
+            beforeMiddlewares[i].apply(null, [response]);
           }
         }
 
-        responseWriter.write(pageBuffer);
+        response.write(pageBuffer);
 
         for (i = 0; i < afterMiddlewares.length; i++) {
-          if (responseWriter !== undefined) {
-            afterMiddlewares[i].apply(null, [responseWriter]);
+          if (response !== undefined) {
+            afterMiddlewares[i].apply(null, [response]);
           }
         }
         res.on('error', processErrorHandler);
 
-        responseWriter.end()
+        response.end()
       });
     }
   }
-
-  function processErrorHandler(error, response, body){
-    util.puts("** process error **".red);
-    if (error) { util.puts(error.red); }
-    if (body) { util.puts(body.red); }
-  };
-
-  function requestErrorHandler(error) {
-    util.puts("** request error **".red);
-    if(error) { util.puts(error.red); }
-  };
 
   function after(middleware) {
     afterMiddlewares.push(middleware);
@@ -99,6 +87,18 @@ var Mitm = (function() {
     frameMiddlewares.push(middleware);
     return this;
   };
+
+  function processErrorHandler(error, response, body){
+    util.puts("** process error **".red);
+    if (error) { util.puts(error.red); }
+    if (body) { util.puts(body.red); }
+  };
+
+  function requestErrorHandler(error) {
+    util.puts("** request error **".red);
+    if(error) { util.puts(error.red); }
+  };
+
 
   return publicInterface;
 }());
