@@ -63,7 +63,7 @@ var Mitm = (function() {
       res.on('data', function(chunk){
         for (i = 0; i < frameMiddlewares.length; i++) {
           if (response !== undefined) {
-            pageBuffer += frameMiddlewares[i].apply(null, [chunk]);
+            pageBuffer += frameMiddlewares[i](chunk)
           }
         }
       });
@@ -72,7 +72,7 @@ var Mitm = (function() {
 
         for (i = 0; i < beforeMiddlewares.length; i++) {
           if (response !== undefined) {
-            beforeMiddlewares[i].apply(null, [response]);
+            beforeMiddlewares[i](response);
           }
         }
 
@@ -80,7 +80,7 @@ var Mitm = (function() {
 
         for (i = 0; i < afterMiddlewares.length; i++) {
           if (response !== undefined) {
-            afterMiddlewares[i].apply(null, [response]);
+            afterMiddlewares[i](response);
           }
         }
         res.on('error', processErrorHandler);
