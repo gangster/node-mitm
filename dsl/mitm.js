@@ -6,7 +6,7 @@ var util = require('util'),
 
 var Mitm = (function() {
   var beforeMiddlewares = [],
-      chunkMiddlewares = [],
+      frameMiddlewares = [],
       afterMiddlewares = [];
 
   publicInterface = {
@@ -97,7 +97,7 @@ var Mitm = (function() {
   };
 
   function frame (middleware) {
-    chunkMiddlewares.push(middleware);
+    frameMiddlewares.push(middleware);
     return this;
   };
 
