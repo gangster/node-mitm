@@ -11,16 +11,18 @@ var Mitm = (function() {
 
   // public interface
   publicInterface = {
-    start: function(port) {
-      http.createServer(listener).listen(port);
-      util.puts('mitm server '.blue + 'started '.green.bold + 'on port '.blue + port.toString().yellow);
-    },
+    start: start,
     after: after,
     before: before,
     frame: frame
   }
 
   // private interface
+  function start(port) {
+    http.createServer(listener).listen(port);
+    util.puts('mitm server '.blue + 'started '.green.bold + 'on port '.blue + port.toString().yellow);
+  }
+
   function listener(request, response) {
     var options, client;
     options = {
