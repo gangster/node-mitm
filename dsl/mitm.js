@@ -38,6 +38,21 @@ var Mitm = (function() {
     client.get(options, responseHandler(response)).on("error", requestErrorHandler);
   }
 
+ function after(middleware) {
+    afterMiddlewares.push(middleware);
+    return this;
+  };
+
+  function before(middleware) {
+    beforeMiddlewares.push(middleware);
+    return this;
+  };
+
+  function frame(middleware) {
+    frameMiddlewares.push(middleware);
+    return this;
+  };
+
   function responseHandler(response) {
     return function(res) {
       var pageBuffer = "";
@@ -72,21 +87,6 @@ var Mitm = (function() {
       });
     }
   }
-
-  function after(middleware) {
-    afterMiddlewares.push(middleware);
-    return this;
-  };
-
-  function before(middleware) {
-    beforeMiddlewares.push(middleware);
-    return this;
-  };
-
-  function frame(middleware) {
-    frameMiddlewares.push(middleware);
-    return this;
-  };
 
   function processErrorHandler(error, response, body){
     util.puts("** process error **".red);
